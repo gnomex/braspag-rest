@@ -27,6 +27,8 @@ Or install it yourself as:
 The gem looks for a default `config/braspag-rest.yml` configuration file, with
 environment (`RACK_ENV` or `RAILS_ENV`) settings for the Braspag API.
 
+> The API version (`/v2/sales/`) are automatically appended to the URL.
+
 ```yml
 # config/braspag-rest.yml
 development:
@@ -184,6 +186,28 @@ credit_card.expiration_date = '12/2021'
 credit_card.security_code = '123'
 credit_card.brand = 'Visa'
 credit_card.saved = true
+```
+
+### Billet order
+
+```rb
+sale = BraspagRest::Sale.new(
+  order_id: '123456',
+  request_id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  customer: {
+    name: 'Comprador Teste',
+    identity: '12312312345'
+  },
+  payment: {
+    type: 'Boleto',
+    amount: 15700,
+    provider: 'Simulado',
+    expiration_date: '2016-10-10',
+    instructions: 'APÓS O VENCIMENTO, COBRAR JUROS DE R$ 0,10 AO DIA'
+  }
+)
+
+sale.save
 ```
 
 ### Find a sale
