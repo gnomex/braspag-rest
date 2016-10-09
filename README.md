@@ -191,12 +191,42 @@ credit_card.saved = true
 ### Billet order
 
 ```rb
+# simple sale
 sale = BraspagRest::Sale.new(
   order_id: '123456',
   request_id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   customer: {
     name: 'Comprador Teste',
-    identity: '12312312345'
+    identity: '123.456.789-01'
+  },
+  payment: {
+    type: 'Boleto',
+    amount: 15700,
+    provider: 'Simulado',
+    expiration_date: '2016-10-10',
+    instructions: 'APÓS O VENCIMENTO, COBRAR JUROS DE R$ 0,10 AO DIA'
+  }
+)
+
+sale.save
+```
+
+```rb
+# simple sale with customer address (required by some providers)
+sale = BraspagRest::Sale.new(
+  order_id: '123456',
+  request_id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  customer: {
+    name: 'Comprador Teste',
+    identity: '123.456.789-01',
+    address: {
+      street: 'Rua dos testes',
+      number: '123',
+      complement: '',
+      zipcode: '22010-000',
+      city: 'São Paulo',
+      state: 'SP'
+    }
   },
   payment: {
     type: 'Boleto',
